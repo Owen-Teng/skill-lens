@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Lens · 图解工作方法，生成 Skill"
+  short_description: "把 Skill 或手册转成横向大画板，在节点气泡里核对、修改并导出自己的 Skill"
+  default_prompt: "使用 $skill-lens 解读我提供的 Skill 或操作手册，生成可离线查看的横向大画板，通过节点气泡核对出处、修改指令并导出 Skill。"

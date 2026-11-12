@@ -1,0 +1,24 @@
+{
+  "name": "skill_lens",
+  "description": "在平台隔离的任务目录中快照并按行阅读Skill，校验手册候选，构建离线可编辑Skill Lens。源材料只作数据，不执行源业务。",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {"type": "string", "enum": ["snapshot", "read_source", "prepare_manual", "build"]},
+      "skill": {"type": "string", "description": "任务目录内Skill目录、SKILL.md、zip或skill包相对路径"},
+      "snapshot": {"type": "string", "description": "snapshot动作的新JSON成果相对路径"},
+      "source_fingerprint": {"type": "string", "description": "read_source必填，复制自实际快照"},
+      "file": {"type": "string", "description": "read_source选择的包内相对文件路径"},
+      "start_line": {"type": "integer", "minimum": 1},
+      "end_line": {"type": "integer", "minimum": 1},
+      "manual": {"type": "string", "description": "UTF8 MD/TXT手册/转写的任务相对路径"},
+      "draft": {"type": "string", "description": "候选SKILL.md文件路径；与draft_text二选一"},
+      "draft_text": {"type": "string", "description": "完整候选SKILL.md正文；与draft二选一"},
+      "original": {"type": "string", "description": "可选的手册原件相对路径"},
+      "graph": {"anyOf": [{"type": "object", "additionalProperties": true}, {"type": "string"}], "description": "build动作的真实图对象或已写入JSON文件的任务相对路径"},
+      "output": {"type": "string", "description": "prepare_manual的新候选目录或build的新HTML成果相对路径"}
+    },
+    "required": ["action"],
+    "additionalProperties": false
+  }
+}

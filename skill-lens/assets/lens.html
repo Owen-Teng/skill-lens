@@ -48,7 +48,7 @@ html,body{width:100%;height:100%;min-width:0}body{height:100dvh;display:flex;fle
   </section>
 </main>
 <div id="nodeBubble" class="node-bubble hidden" role="dialog" aria-modal="false" aria-labelledby="bubbleTitle" data-side="right"><div class="bubble-head"><h2 id="bubbleTitle">节点上下文</h2><button id="closeBubble" class="bubble-close" aria-label="关闭节点上下文">×</button></div><div id="detail" class="detail"></div><div class="bubble-foot"><span>关闭或切换节点，草稿仍保留</span><button id="bubbleReview">查看修改</button></div></div>
-<footer class="bottom-note"><span>静态解读，不代表 AI 已执行；阅读页含核心源文件与当前草稿；附图按保存选择。</span><span>v0.4 候选 · 按官网资产适配</span></footer>
+<footer class="bottom-note"><span>静态解读，不代表 AI 已执行；阅读页含核心源文件与当前草稿；附图按保存选择。</span><span>Skill Lens · v0.7.1</span></footer>
 <dialog id="diffDialog" class="modal" aria-labelledby="diffTitle"><div class="modal-head"><div><h2 id="diffTitle">确认修改与保存选项</h2><div id="diffSubtitle" class="muted" style="font-size:12px;margin-top:4px"></div></div><button id="closeDiff" aria-label="关闭修改预览">关闭</button></div><div id="diffBody" class="modal-body"></div><div class="pack-options"><label><input type="checkbox" id="includeLens"><span>将 Skill Lens 视图一并打包（接收者可离线查看原图）</span></label><p id="packHint">不勾选将保存普通 Skill，不包含 Lens 页面。</p></div><div class="modal-foot"><span class="muted" style="font-size:12px">原件保留。未修改文件按原始字节打包。</span><div class="row wrap"><button id="reparseRequest">下载重新解读说明</button><button id="downloadZip" class="primary">生成/保存修改skill</button></div></div></dialog>
 <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 <script id="lens-data" type="application/json">__LENS_DATA__</script>

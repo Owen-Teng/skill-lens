@@ -1,10 +1,12 @@
 # Skill Lens
 
-**Click a step in a workflow map, check the instruction behind it, and save a version that fits your work.**
+**Already have a Skill? Click through its workflow, check the wording behind each step and save your own edits. Starting with a how-to guide? Have an agent draft a Skill, then review each step and export your copy.**
 
-[简体中文](README.zh-CN.md) · **[Try the offline HTML demo](https://github.com/Owen-Teng/skill-lens/releases/download/v0.7.1/skill-lens-demo.html)** · [Download the toolkit](https://github.com/Owen-Teng/skill-lens/releases/download/v0.7.1/skill-lens-v0.7.1-node.zip)
+[简体中文](README.zh-CN.md) · **[Try the offline HTML demo](https://github.com/Owen-Teng/skill-lens/releases/download/v0.8.2/skill-lens-demo.html)** · [Download the toolkit](https://github.com/Owen-Teng/skill-lens/releases/download/v0.8.2/skill-lens-v0.8.2-node.zip)
 
-[![Actual reader showing a synthetic inventory handoff workflow and its editable source panel](docs/skill-lens-preview.png)](https://github.com/Owen-Teng/skill-lens/releases/download/v0.7.1/skill-lens-demo.html)
+[![v0.8.2 reader showing the two-area inventory example and its editable source panel](docs/skill-lens-preview.png)](https://github.com/Owen-Teng/skill-lens/releases/download/v0.8.2/skill-lens-demo.html)
+
+The inventory example now groups its 14 steps and reference items into two areas. Follow the solid arrows, read conditions beside each branch, or hover over a step to see what leads into it and what follows.
 
 **Try it without an account.** Download the HTML and open it in a desktop browser. Hover over a step to see its direct relationships. Click a node, compare it with the source, edit a candidate instruction and save a new Skill. The Chinese sample uses a fictional event-inventory handoff. GitHub's file viewer does not run HTML; the downloaded reader works offline. It does not generate maps from new inputs on its own.
 
@@ -23,4 +25,4 @@ A new export leaves **Include Lens** off by default. Turn it on to share the cur
 
 **Status:** locally tested platform integration candidate by Owen Teng; no live company agent deployment or real HR outcome is claimed. Word/PDF extraction is supplied by the host; the compiler has no OCR or embedded model. Creators review the semantics of every candidate.
 
-[Validation and scope](docs/verification.md) · [Release assets](https://github.com/Owen-Teng/skill-lens/releases/tag/v0.7.1)
+[Validation and scope](docs/verification.md) · [Release assets](https://github.com/Owen-Teng/skill-lens/releases/tag/v0.8.2)

@@ -293,8 +293,24 @@ export function validateGraph(inputGraph, snapshot, { requireSourceFingerprint =
   if (!Array.isArray(graph.edges)) fail('graph.edges 须为数组');
   for (const key of ['title', 'summary']) if (typeof graph[key] !== 'string') fail(`graph.${key} 须为字符串`);
   if (typeof graph.demo !== 'boolean' || !Array.isArray(graph.gaps) || graph.gaps.some(value => typeof value !== 'string')) fail('demo 须为布尔值，gaps 须为字符串数组');
+  // Regions describe reading groups only; they do not add dependencies or steps.
+  const regionIds = new Set(), usedRegions = new Set();
+  if (own(graph, 'regions')) {
+    if (!Array.isArray(graph.regions) || !graph.regions.length || graph.regions.length > 16) fail('graph.regions 须为包含 1—16 个功能区域的数组');
+    for (const region of graph.regions) {
+      if (!plainObject(region) || typeof region.id !== 'string' || !region.id.trim() || regionIds.has(region.id)) fail('region.id 须为非空、唯一字符串');
+      if (typeof region.label !== 'string' || !region.label.trim()) fail('region.label 须为非空字符串');
+      defaults(region, { description: '' });
+      if (typeof region.description !== 'string') fail('region.description 须为字符串');
+      regionIds.add(region.id);
+    }
+  }
   for (const node of graph.nodes) {
     if (!plainObject(node) || typeof node.id !== 'string' || !node.id || ids.has(node.id)) fail('node.id 须为非空、唯一字符串');
+    if (regionIds.size) {
+      if (typeof node.region_id !== 'string' || !regionIds.has(node.region_id)) fail(`节点 ${node.id} 的 region_id 须指向已声明的功能区域`);
+      usedRegions.add(node.region_id);
+    } else if (own(node, 'region_id')) fail(`节点 ${node.id} 提供了 region_id，但 graph.regions 未声明功能区域`);
     ids.add(node.id);
     defaults(node, { label: node.id, kind: 'step', summary: '', evidence: 'unknown', inputs: [], outputs: [], source_refs: [], evidence_refs: [], actor: 'unknown' });
     if (!['agent', 'human', 'tool', 'unknown'].includes(node.actor)) fail('node.actor 仅支持 agent/human/tool/unknown');
@@ -335,6 +351,7 @@ export function validateGraph(inputGraph, snapshot, { requireSourceFingerprint =
       node.evidence_spans.push({ file: name, start_line: start, end_line: end, text: lines.slice(start - 1, end).join(''), sha256: lookup.get(name).sha256 });
     }
   }
+  for (const regionId of regionIds) if (!usedRegions.has(regionId)) fail(`功能区域 ${regionId} 没有步骤；请去掉空区域或补齐正确的归属`);
   for (const edge of graph.edges) {
     if (!plainObject(edge) || !ids.has(edge.from) || !ids.has(edge.to)) fail('edge 必须引用已存在节点的 from/to');
     defaults(edge, { label: '', kind: 'flow' });
@@ -370,7 +387,7 @@ export function buildLens({ skill, graph: graphInput, output, snapshot: snapshot
     }
     const [validated, blocks] = validateGraph(graph, snapshot, { requireSourceFingerprint: true });
     const packageData = Object.fromEntries(Object.entries(snapshot).filter(([key]) => key !== 'portability'));
-    const data = { version: '0.7.1', graph: validated, package: packageData, blocks, drafts: {}, portability: snapshot.portability || { managed: false, origin_base64: null, origin_sha256: null, manifest: null } };
+    const data = { version: '0.8.2', graph: validated, package: packageData, blocks, drafts: {}, portability: snapshot.portability || { managed: false, origin_base64: null, origin_sha256: null, manifest: null } };
     const templatePath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../assets/lens.html');
     const template = decodeUtf8(fs.readFileSync(templatePath));
     if (template.split('__LENS_DATA__').length !== 2) fail('Lens HTML 模板须含唯一的 __LENS_DATA__ 占位符');

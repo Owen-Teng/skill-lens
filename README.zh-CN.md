@@ -1,10 +1,12 @@
 # Skill Lens
 
-**点开流程图里的一个步骤，找到它对应的原文，改好后另存自己的 Skill。**
+**已经有 Skill？看流程图，点一步就能查原文，改好后另存自己的版本。只有操作手册？让 AI 帮你写出第一份 Skill，再逐步核对、修改和导出。**
 
-[English](README.md) · **[下载离线演示 HTML](https://github.com/Owen-Teng/skill-lens/releases/download/v0.7.1/skill-lens-demo.html)** · [下载平台工具包](https://github.com/Owen-Teng/skill-lens/releases/download/v0.7.1/skill-lens-v0.7.1-node.zip)
+[English](README.md) · **[下载离线演示 HTML](https://github.com/Owen-Teng/skill-lens/releases/download/v0.8.2/skill-lens-demo.html)** · [下载平台工具包](https://github.com/Owen-Teng/skill-lens/releases/download/v0.8.2/skill-lens-v0.8.2-node.zip)
 
-[![合成手册的实际阅读界面：点击流程节点查看出处，局部修改候选指令](docs/skill-lens-preview.png)](https://github.com/Owen-Teng/skill-lens/releases/download/v0.7.1/skill-lens-demo.html)
+[![合成手册的实际阅读界面：点击流程节点查看出处，局部修改候选指令](docs/skill-lens-preview.png)](https://github.com/Owen-Teng/skill-lens/releases/download/v0.8.2/skill-lens-demo.html)
+
+新版把物资交接示例里的 14 个步骤和资料放进两个区域。顺着实线看下一步，遇到分支就看旁边的条件；鼠标停在一步上，可以看清它从哪来、往哪去。
 
 **先试一次，不用安装。** 下载上方 HTML，用桌面浏览器打开。示例是一份虚构的活动物资交接手册。悬停节点看直接关联，点开节点核对出处，修改候选指令，然后点「生成/保存修改skill」。GitHub 文件页只显示源码；下载后的 HTML 可离线交互。生成另一份材料的图需要平台接入。
 
@@ -23,4 +25,4 @@
 
 Owen Teng 的独立工具。启用问候只在工具对话中出现，不写入使用者的成果。**当前是平台接入候选，未部署到真实公司 Agent。** 编译器不含模型或 OCR，Word/PDF 转写依赖平台已有能力。合成示例不代表真实业务效果，候选内容仍由创作者核对。
 
-[版本与验证范围](docs/verification.md) · [发布附件与校验值](https://github.com/Owen-Teng/skill-lens/releases/tag/v0.7.1)
+[版本与验证范围](docs/verification.md) · [发布附件与校验值](https://github.com/Owen-Teng/skill-lens/releases/tag/v0.8.2)

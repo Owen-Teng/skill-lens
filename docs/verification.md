@@ -1,19 +1,18 @@
 # Validation · 验证范围
 
-**v0.7.1 · Independent public interface edition** · 2026-11-12
+**v0.8.2 · Independent public edition · 2026-11-13**
 
-The demo was regenerated with the public compiler from four synthetic source files and their original graph. Its ZIP and HTML have new hashes.
-
-| Scope | Observed result |
+| Check | Result |
 |---|---|
-| Public build, Node.js 24.15.0 | 59 tests: 58 passed, 0 failed, 1 Windows symlink case skipped for lack of privilege. Directory junction rejection passed. |
-| Offline Chromium, public example | 14 nodes rendered. Hover highlighted neighbors; opening a node exposed its source editor. Edited text appeared in the exported Skill ZIP. Opt-in included both current and original HTML. Neither carried the previous corporate mark. Desktop 1440×900; mobile width 390 checked for page overflow. |
-| Earlier candidate, Node.js 24.11.1 | The previous validation recorded 79 compatibility checks, 1,557 Unicode path comparisons, 24 DOM checks and six simulated platform generations. These historical checks were not all rerun on v0.7.1. |
+| Public source, Node.js 24.15.0 on Windows | 61 tests, 60 passed, 0 failed. One file symlink test skipped because the account lacks that privilege. Directory junction coverage ran. |
+| Public reader, offline Chromium | Opened the inventory decision, read lines 4–5 of the manual, edited the candidate and exported a ZIP. All four files survived, with only SKILL.md changed. Both walkthroughs show the actual public build. |
+| Compiler output | The public example uses the same graph, source files and mappings as the v0.8.2 development example. It has two areas, 14 nodes and 22 relationships. |
+| Route comparison on the development example | Unrelated centerline crossings fell from 43 to 3, unrelated overlap from 2,229 px to 0 px, and unrelated routes crossing condition labels from 19 to 0. These are geometric measurements on this example. |
 
-From the repository root:
+Run the public tests from the repository root with Node.js 24:
 
 ~~~sh
 node --test skill-lens/scripts/build_lens.test.mjs skill-lens/scripts/platform_tool.test.mjs skill-lens/scripts/prepare_manual.test.mjs
 ~~~
 
-本版单独复测了 Node 用例和离线浏览器编辑导出。前版兼容性与模拟接入数字只作历史依据，不算作新版重跑结果。合成材料不能证明任意手册或模型都能准确转换，也不代表已接入真实企业平台。来源目录稳定、任务隔离、用户权限与成果交付由平台负责。
+公开版单独验证了工具测试、示例打开、查看原文、修改和导出。上表的走线对比来自开发版同一份合成示例。流程图描述材料里的步骤，实际业务能否执行、AI 是否理解准确仍需人工核对。平台接入说明供部署方使用，尚未连接真实公司平台。

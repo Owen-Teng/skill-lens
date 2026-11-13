@@ -75,7 +75,7 @@ test('build accepts inline graph and preserves source/binary', t => {
   const r = f.run({ action: 'build', skill: 'input/source', graph: graphFor(s.source_fingerprint), output: 'output/map.html' });
   assert.equal(r.ok, true); assert.equal(r.artifacts[0].path, 'output/map.html');
   const html = fs.readFileSync(path.join(f.workspace, 'output/map.html'), 'utf8');
-  assert.ok(html.includes('relation-root')); assert.ok(html.includes('0.7.1'));
+  assert.ok(html.includes('relation-root')); assert.ok(html.includes('0.8.2'));
   assert.equal(fs.readFileSync(path.join(f.workspace, 'input/source/SKILL.md'), 'utf8'), f.text);
   assert.deepEqual(fs.readFileSync(path.join(f.workspace, 'input/source/data.bin')), f.binary);
 });

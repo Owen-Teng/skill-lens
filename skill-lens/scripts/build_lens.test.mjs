@@ -76,6 +76,43 @@ test('graph strict binding, shared exact ranges, overlaps and missing mappings',
   assert.throws(() => validateGraph(graph(snapshot, [{ file: 'SKILL.md', start_line: 4, end_line: 4 }]), snapshot), /越界/);
 });
 
+test('functional regions preserve source mappings and graph semantics; legacy graphs remain accepted', () => {
+  const snapshot = snapshotSkill(source('regions-good', 'prepare\nprocess\nfinish\n'));
+  const input = graph(snapshot);
+  input.nodes = ['ready', 'work', 'done'].map((id, index) => ({ id, region_id: ['prepare', 'work', 'result'][index], source_refs: [{ file: 'SKILL.md', start_line: index + 1, end_line: index + 1 }] }));
+  input.edges = [{ from: 'ready', to: 'work', kind: 'flow', label: '处理' }, { from: 'work', to: 'done', kind: 'condition', label: '完成后' }];
+  input.regions = [{ id: 'prepare', label: '先准备什么', description: '查看需要的材料' }, { id: 'work', label: '按步骤处理' }, { id: 'result', label: '最后得到什么', description: '查看交付内容' }];
+  const before = JSON.stringify(input), [normalized, blocks] = validateGraph(input, snapshot);
+  assert.equal(JSON.stringify(input), before, 'validator must not mutate graph authored by Agent');
+  assert.deepEqual(normalized.edges, input.edges);
+  assert.deepEqual(normalized.nodes.map(node => node.region_id), ['prepare', 'work', 'result']);
+  assert.deepEqual(normalized.regions.map(region => region.id), ['prepare', 'work', 'result']);
+  assert.equal(blocks.length, 3); assert.equal(blocks[1].original, 'process\n');
+  assert.doesNotThrow(() => validateGraph(graph(snapshot), snapshot));
+});
+
+test('invalid functional-area definitions fail before producing a misleading graph', () => {
+  const snapshot = snapshotSkill(source('regions-invalid', 'one\ntwo\n'));
+  const valid = () => ({ ...graph(snapshot), regions: [{ id: 'work', label: '按步骤处理', description: '查看处理过程' }], nodes: [{ id: 'n1', region_id: 'work', source_refs: [{ file: 'SKILL.md', start_line: 1, end_line: 1 }] }] });
+  const cases = [
+    value => { value.regions = null; },
+    value => { value.regions = []; },
+    value => { value.regions = {}; },
+    value => { value.regions = [null]; },
+    value => { value.regions[0].id = ''; },
+    value => { value.regions[0].label = ' '; },
+    value => { value.regions[0].description = 12; },
+    value => { value.regions.push({ id: 'work', label: '重复' }); },
+    value => { value.regions.push({ id: 'unused', label: '没有内容的分区' }); },
+    value => { delete value.nodes[0].region_id; },
+    value => { value.nodes[0].region_id = 'unknown'; },
+    value => { value.nodes[0].region_id = ['work']; },
+    value => { delete value.regions; },
+    value => { value.regions = Array.from({ length: 17 }, (_, index) => ({ id: String(index), label: String(index) })); },
+  ];
+  cases.forEach((change, index) => { const value = valid(); change(value); assert.throws(() => validateGraph(value, snapshot), LensError, `invalid region case ${index + 1}`); });
+});
+
 test('ZIP CRC, unsupported formats, duplicate/alias paths, traversal and links fail closed', () => {
   const good = [{ name: 'SKILL.md', data: 'safe' }];
   const corrupt = zip(good); corrupt[30 + Buffer.byteLength('SKILL.md')] ^= 1; const corruptPath = path.join(work, 'crc.zip'); fs.writeFileSync(corruptPath, corrupt); assert.throws(() => snapshotSkill(corruptPath), /CRC/);
@@ -121,7 +158,7 @@ test('HTML renders entire template, escapes embedded payload, refuses original a
   const output = path.join(work, 'render.html'), snapshotOutput = path.join(work, 'render.json'), graphPath = path.join(work, 'graph.json'); fs.writeFileSync(graphPath, '\uFEFF' + JSON.stringify(input));
   const result = buildLens({ skill: directory, graph: graphPath, output, snapshot: snapshotOutput });
   assert.equal(result.ok, true); assert.equal(result.outputs.length, 2); const html = fs.readFileSync(output, 'utf8');
-  assert(html.includes('id="lens-data"')); assert(html.includes('id="savePage"')); assert(html.includes('"version":"0.7.1"')); assert(!html.includes('</script><script>bad()')); assert(html.includes('\\u003c/script\\u003e'));
+  assert(html.includes('id="lens-data"')); assert(html.includes('id="savePage"')); assert(html.includes('"version":"0.8.2"')); assert(!html.includes('</script><script>bad()')); assert(html.includes('\\u003c/script\\u003e'));
   assert.throws(() => buildLens({ skill: directory, snapshot: path.join(directory, 'generated.json') }), /输入 Skill 之外/);
   assert.throws(() => buildLens({ skill: directory, snapshot: snapshotOutput }), /已存在/);
   assert.throws(() => buildLens({ skill: directory, graph: graphPath, output: path.join(work, 'same'), snapshot: path.join(work, 'same') }), /同一路径/);

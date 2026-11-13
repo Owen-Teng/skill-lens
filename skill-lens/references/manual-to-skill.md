@@ -63,6 +63,7 @@ node <本Skill目录>/scripts/prepare_manual.mjs --manual <可阅读手册.md或
 
 - 将快照中的 `source_fingerprint` 原样复制到 graph；候选文件改变后先重新阅读并更新映射。
 - 顶层 `source_kind` 设为 `manual`。
+- 按实际功能声明 `regions`，每个节点用 `region_id` 归入一个区域，用白话标题和一句用途帮助初学者阅读。分区不改变候选步骤、责任、条件或先后，也不凭空增加“请你审批”；同一功能可同时包含人工和AI动作。
 - 每个节点的 `actor` 标出 `agent / human / tool / unknown`。
 - `source_refs` 指向候选 SKILL.md 的可编辑指令区块。
 - `evidence_refs` 指向 `references/manual-readable.md` 的对应只读出处；有转换定位时一并保留。
